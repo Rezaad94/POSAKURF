@@ -2,8 +2,11 @@
 Resource        ../../../Routes/appRoutes.robot
 
 *** Variables ***
-${phoneNumberField}            xpath=/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]
-${PINField}                    xpath=/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]
+${phoneNumberField}            xpath=//android.widget.EditText[@text="Nomor Handphone"]
+# ${phoneNumberField}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]
+${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Handphone +62xxxxxxxxxx"]
+${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]
+${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
 ${masukButton}                 xpath=//android.view.View[@content-desc="Masuk"]
 ${lewatiButton}                xpath=//android.widget.Button[@content-desc="Lewati"]
 ${okGoogle}                    id=android:id/button1
@@ -14,8 +17,8 @@ ${homePageMenuBar}            xpath=//android.view.View[@content-desc="HomeTab 1
 ${welcomeText}                xpath=//android.view.View[@content-desc="Selamat datang di"]
 
 #error Message
-${notInputPhoneError}        Isikan nomor telepon anda
-${notInputPINError}          Isikan nomor pin anda
+${notInputPhoneError}        xpath=//android.view.View[@content-desc="Isikan nomor telepon anda"]
+${notInputPINError}          xpath=//android.widget.EditText[@text="Isikan nomor pin anda"]
 ${wrongInputPINError}        PIN yang anda masukkan salah
 ${notRegisteredPhoneError}   Nomor Telepon yang Anda masukkan salah / tidak terdaftar.
 
@@ -26,25 +29,27 @@ ${tutupButtonPupUp}          xpath=//android.widget.Button[@content-desc="Tutup"
 Click Lewati Button in Splash Screen
     Element Should Be Visible    ${lewatiButton}  
     Click Element    ${lewatiButton}  
-    Sleep    2s
+    Sleep    1s
 
 Navigate to login page
     Element Should Be Visible    ${masukHyperlink}  
     Click Element    ${masukHyperlink}   
-    Sleep    2s
+    Sleep    1s
 
 Input Phone Number
     [Arguments]  ${phoneNumber}
     Element Should Be Visible    ${phoneNumberField}
     Click Element    ${phoneNumberField}
-    Input Text    ${phoneNumberField}     ${phoneNumber}
+    Sleep    1s
+    Input Text    ${phoneNumberFieldAfterClick}      ${phoneNumber}
+    # Input Text   ${phoneNumberField}     ${phoneNumber}
     Sleep    1s
 
 Input PIN
     [Arguments]    ${PIN}
     Element Should Be Visible    ${PINField} 
     Click Element    ${PINField} 
-    Input Text    ${PINField}     ${PIN}
+    Input Text    ${PINFieldAfterClick}     ${PIN}
     Sleep    1s
 
 Click Masuk Button
@@ -56,13 +61,14 @@ Verify Navigate to Home Page
     Element Should Be Visible   ${homePageMenuBar}
 
 Verify Phone Number not Inputed
-    Text Should Be Visible    ${notInputPhoneError}
+    Element Should Be Visible    ${notInputPhoneError}
 
 Verify PIN not Inputed
-    Text Should Be Visible    ${notInputPINError}
+    Element Should Be Visible   ${notInputPINError}
 
 Verify Wrong input PIN
-    Text Should Be Visible    ${wrongInputPINError} 
+    Text Should Be Visible    ${wrongInputPINError}
+    # Element Should Contain Text    ${PINField}     ${wrongInputPINError} 
 
 Verify Phone Number not registered
     Text Should Be Visible    ${notRegisteredPhoneError}

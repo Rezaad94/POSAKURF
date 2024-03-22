@@ -8,6 +8,6 @@ activeKaryawanPIN = "PIN"
 inactiveKaryawanPhone = "phone1"
 inactiveKaryawanPIN = "PIN"
 
-notRegisteredPhone = "phone2"
+notRegisteredPhone = "082223322332"
 notRegisteredPIN = "112211"
 
