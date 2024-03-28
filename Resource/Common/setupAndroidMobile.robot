@@ -9,6 +9,7 @@ ${deviceName}                      emulator-5554
 # ${deviceName}                      K1AXGF03C126K7L
 #appium
 ${automationName}                  Uiautomator2
+# ${automationName}                  flutter
 ${appPackage}                      com.cloudiex.possaku
 ${appActivity}                     com.cloudiex.possaku.MainActivity
 
@@ -17,4 +18,4 @@ ${appActivity}                     com.cloudiex.possaku.MainActivity
 Setup and open dialer Android Dagangan App 
         ${AndroidDriver}=    Open Application        ${AppiumServer}    platformName=${platformName}    platformVersion=${platfromVersion}    deviceName=${Device_name}     
         ...    automationName=${automationName}    appPackage=${appPackage}    newCommandTimeout=3000      appActivity=${appActivity}    autoGrantPermissions=true 
-    Sleep    6s
+    Sleep    5s

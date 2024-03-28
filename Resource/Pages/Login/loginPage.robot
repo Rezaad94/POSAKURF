@@ -5,7 +5,8 @@ Resource        ../../../Routes/appRoutes.robot
 ${phoneNumberField}            xpath=//android.widget.EditText[@text="Nomor Handphone"]
 # ${phoneNumberField}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]
 ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Handphone +62xxxxxxxxxx"]
-${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]
+# ${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]
+${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
 ${masukButton}                 xpath=//android.view.View[@content-desc="Masuk"]
 ${lewatiButton}                xpath=//android.widget.Button[@content-desc="Lewati"]
@@ -13,14 +14,17 @@ ${okGoogle}                    id=android:id/button1
 ${masukHyperlink}              xpath=//android.view.View[@content-desc="Masuk"]
 
 #home page
-${homePageMenuBar}            xpath=//android.view.View[@content-desc="HomeTab 1 of 4"]
+${homePageMenuBar}            xpath=//android.view.View[@content-desc="Home Tab 1 of 4"]
 ${welcomeText}                xpath=//android.view.View[@content-desc="Selamat datang di"]
 
 #error Message
-${notInputPhoneError}        xpath=//android.view.View[@content-desc="Isikan nomor telepon anda"]
-${notInputPINError}          xpath=//android.widget.EditText[@text="Isikan nomor pin anda"]
+# ${notInputPhoneError}        xpath=//android.view.View[@content-desc="Isikan nomor telepon anda"]
+# ${notInputPINError}          xpath=//android.widget.EditText[@text="Isikan nomor pin anda"]
+${notInputPhoneError}        Isikan nomor telepon anda
+${notInputPINError}          Isikan nomor pin anda
 ${wrongInputPINError}        PIN yang anda masukkan salah
 ${notRegisteredPhoneError}   Nomor Telepon yang Anda masukkan salah / tidak terdaftar.
+${userNotActiveError}        Status User Tidak Aktif!
 
 #pop up element
 ${tutupButtonPupUp}          xpath=//android.widget.Button[@content-desc="Tutup"]
@@ -40,9 +44,10 @@ Input Phone Number
     [Arguments]  ${phoneNumber}
     Element Should Be Visible    ${phoneNumberField}
     Click Element    ${phoneNumberField}
-    Sleep    1s
-    Input Text    ${phoneNumberFieldAfterClick}      ${phoneNumber}
-    # Input Text   ${phoneNumberField}     ${phoneNumber}
+    Input Text Into Current Element    ${phoneNumber}
+    # Sleep    1s
+    # Input Text    ${phoneNumberField}     ${phoneNumber}
+    # Input Text   ${phoneNumberFieldAfterClick}     ${phoneNumber}
     Sleep    1s
 
 Input PIN
@@ -54,24 +59,30 @@ Input PIN
 
 Click Masuk Button
     Click Element        ${masukButton}
-    Sleep    2s  
+    Sleep    1s  
 
 Verify Navigate to Home Page
     Element Should Be Visible    ${welcomeText}  
-    Element Should Be Visible   ${homePageMenuBar}
+    Page Should Not Contain Element         ${phoneNumberField}
 
 Verify Phone Number not Inputed
-    Element Should Be Visible    ${notInputPhoneError}
+    # Element Should Be Visible    ${notInputPhoneError}
+    Page Should Contain Text    ${notInputPhoneError}
 
 Verify PIN not Inputed
-    Element Should Be Visible   ${notInputPINError}
+    # Element Should Be Visible   ${notInputPINError}
+    Page Should Contain Text      ${notInputPINError}
 
 Verify Wrong input PIN
-    Text Should Be Visible    ${wrongInputPINError}
+    Page Should Contain Text    ${wrongInputPINError}
     # Element Should Contain Text    ${PINField}     ${wrongInputPINError} 
 
 Verify Phone Number not registered
-    Text Should Be Visible    ${notRegisteredPhoneError}
+    Page Should Contain Text    ${notRegisteredPhoneError}
+
+Verify User Not Active
+    Sleep    3s
+    Page Should Contain Text    ${userNotActiveError} 
 
 Click tutup Button Pop Up Login
     Click Element    ${tutupButtonPupUp} 

@@ -1,5 +1,6 @@
 *** Settings ***
-Library                 AppiumLibrary    
+Library                 AppiumLibrary
+# Library                 AppiumFlutterLibrary   
 Library                 Process
 Library                 Dialogs
 Library                 OperatingSystem
