@@ -9,13 +9,13 @@ ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Hand
 ${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
 ${masukButton}                 xpath=//android.view.View[@content-desc="Masuk"]
-${lewatiButton}                xpath=//android.widget.Button[@content-desc="Lewati"]
+
 ${okGoogle}                    id=android:id/button1
 ${masukHyperlink}              xpath=//android.view.View[@content-desc="Masuk"]
 
 #home page
 ${homePageMenuBar}            xpath=//android.view.View[@content-desc="Home Tab 1 of 4"]
-${welcomeText}                xpath=//android.view.View[@content-desc="Selamat datang di"]
+${welcomeText}                Selamat datang di
 
 #error Message
 # ${notInputPhoneError}        xpath=//android.view.View[@content-desc="Isikan nomor telepon anda"]
@@ -30,11 +30,6 @@ ${userNotActiveError}        Status User Tidak Aktif!
 ${tutupButtonPupUp}          xpath=//android.widget.Button[@content-desc="Tutup"]
 
 *** Keywords ***
-Click Lewati Button in Splash Screen
-    Element Should Be Visible    ${lewatiButton}  
-    Click Element    ${lewatiButton}  
-    Sleep    1s
-
 Navigate to login page
     Element Should Be Visible    ${masukHyperlink}  
     Click Element    ${masukHyperlink}   
@@ -62,7 +57,7 @@ Click Masuk Button
     Sleep    1s  
 
 Verify Navigate to Home Page
-    Element Should Be Visible    ${welcomeText}  
+    Page Should Contain Text    ${welcomeText}  
     Page Should Not Contain Element         ${phoneNumberField}
 
 Verify Phone Number not Inputed
