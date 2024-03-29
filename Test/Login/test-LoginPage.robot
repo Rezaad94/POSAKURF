@@ -1,5 +1,5 @@
 *** Settings ***
-Resource                ../Routes/appRoutes.robot
+Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Login Page
 Task Tags               Login Page
 Test Setup             Setup and open dialer Android Dagangan App
@@ -10,7 +10,7 @@ Test Teardown          Close All Applications
 *** Test Cases ***
 TC001 - Login with not Input Phone and PIN
     [Tags]     Negetive Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Click Masuk Button
     loginPage.Verify PIN not Inputed
@@ -18,7 +18,7 @@ TC001 - Login with not Input Phone and PIN
 
 TC002 - Login with not Input Phone and input PIN
     [Tags]     Negetive Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${empty}
     loginPage.Input PIN    ${ownerPIN}
@@ -27,7 +27,7 @@ TC002 - Login with not Input Phone and input PIN
 
 TC003 - Login with Input Phone and not input PIN
     [Tags]     Negetive Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${ownerPhone}
     loginPage.Click Masuk Button
@@ -35,7 +35,7 @@ TC003 - Login with Input Phone and not input PIN
 
 TC004 - Login with Wrong PIN
     [Tags]     Negative Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${ownerPhone}
     loginPage.Input PIN    ${notRegisteredPIN}
@@ -45,7 +45,7 @@ TC004 - Login with Wrong PIN
         
 TC005 - Login with not registered Phone
     [Tags]    Negative Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${notRegisteredPhone}
     loginPage.Input PIN    ${ownerPIN}
@@ -55,7 +55,7 @@ TC005 - Login with not registered Phone
 
 TC006 - Login with Inactive User
     [Tags]    Negative Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${inactiveKaryawanPhone}
     loginPage.Input PIN    ${inactiveKaryawanPIN}
@@ -65,7 +65,7 @@ TC006 - Login with Inactive User
 
 TC007 - Login with Valid Phone and PIN 08.. Format
     [Tags]    Positive Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${ownerPhone}
     loginPage.Input PIN    ${ownerPIN}
@@ -74,7 +74,7 @@ TC007 - Login with Valid Phone and PIN 08.. Format
 
 TC008 - Login with Valid Phone and PIN +628.. Format
     [Tags]    Positive Cases
-    loginPage.Click Lewati Button in Splash Screen
+    splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${ownerPhone62}
     loginPage.Input PIN    ${ownerPIN}
