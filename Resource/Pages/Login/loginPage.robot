@@ -5,17 +5,18 @@ Resource        ../../../Routes/appRoutes.robot
 ${phoneNumberField}            xpath=//android.widget.EditText[@text="Nomor Handphone"]
 # ${phoneNumberField}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]
 ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Handphone +62xxxxxxxxxx"]
-# ${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]
-${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
+${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]
+# ${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
-${masukButton}                 xpath=//android.view.View[@content-desc="Masuk"]
+${masukButton}                 xpath=//android.widget.Button[@content-desc="Masuk"]
+# ${masukButton}                 id=Masuk
 
 ${okGoogle}                    id=android:id/button1
 ${masukHyperlink}              xpath=//android.view.View[@content-desc="Masuk"]
 
 #home page
 ${homePageMenuBar}            xpath=//android.view.View[@content-desc="Home Tab 1 of 4"]
-${welcomeText}                Selamat datang di
+${welcomeText}                Selamat datang
 
 #error Message
 # ${notInputPhoneError}        xpath=//android.view.View[@content-desc="Isikan nomor telepon anda"]
@@ -49,6 +50,7 @@ Input PIN
     [Arguments]    ${PIN}
     Element Should Be Visible    ${PINField} 
     Click Element    ${PINField} 
+    Sleep    1s
     Input Text    ${PINFieldAfterClick}     ${PIN}
     Sleep    1s
 
@@ -57,6 +59,7 @@ Click Masuk Button
     Sleep    1s  
 
 Verify Navigate to Home Page
+    Sleep    2s
     Page Should Contain Text    ${welcomeText}  
     Page Should Not Contain Element         ${phoneNumberField}
 

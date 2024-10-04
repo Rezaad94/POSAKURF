@@ -1,6 +1,6 @@
 # Credential data login
-ownerPhone = "085672222333"
-ownerPhone62= "+6285672222333"
+ownerPhone = "085672222334"
+ownerPhone62= "+6285672222334"
 ownerPIN = "222222"
 
 activeKaryawanPhone = "phone1"
