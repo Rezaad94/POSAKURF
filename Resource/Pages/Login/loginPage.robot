@@ -8,7 +8,7 @@ ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Hand
 ${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]
 # ${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
-${masukButton}                 xpath=//android.widget.Button[@content-desc="Masuk"]
+${masukButton}                 xpath=//android.widget.Button[@content-desc="Masuk"] 
 # ${masukButton}                 id=Masuk
 
 ${okGoogle}                    id=android:id/button1

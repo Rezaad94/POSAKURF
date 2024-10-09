@@ -29,6 +29,7 @@ Navigate to Next Page Splash Screen
     Click Element    ${arrowToNext}
 
 Verify Navigate to Page 2 Splash Screen
+    Sleep    1s
     Page Should Contain Text    ${page2Title}
     Page Should Contain Text    ${page2Wording}
     Page Should Contain Text    ${page2Wordingline2}
@@ -42,8 +43,9 @@ Click Selesai Button Spalsh Screen
     Click Element    ${selesaiSplashButton}
 
 Verify finish Splash Screen
+    Sleep    1s
     # Click Element    ${allowLocationPermission} 
     Page Should Contain Text    ${registerTitlePage}
-    Element Should Be Visible    ${masukButton} 
+    Element Should Be Visible    ${masukHyperlink} 
     
 
