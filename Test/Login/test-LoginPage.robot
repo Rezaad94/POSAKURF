@@ -2,7 +2,7 @@
 Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Login Page
 Task Tags               Login Page
-Test Setup             Setup and open dialer Android Dagangan App
+Test Setup             Setup and open dialer Android App
 Test Teardown          Close All Applications
 
 *** Keywords ***

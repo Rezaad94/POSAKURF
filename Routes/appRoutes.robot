@@ -11,3 +11,6 @@ Resource                ../Resource/Pages/Login/loginPage.robot
 
 #- SplashScreen -#
 Resource                ../Resource/Pages/splashScreen/splashScreenPage.robot
+
+#- Home -#
+Resource                ../Resource//Pages/Home/homePage.robot

@@ -15,7 +15,7 @@ ${appActivity}                     com.cloudiex.possaku.MainActivity
 
 
 *** Keywords ***
-Setup and open dialer Android Dagangan App 
+Setup and open dialer Android App 
         ${AndroidDriver}=    Open Application        ${AppiumServer}    platformName=${platformName}    platformVersion=${platfromVersion}    deviceName=${Device_name}     
         ...    automationName=${automationName}    appPackage=${appPackage}    newCommandTimeout=3000      appActivity=${appActivity}    autoGrantPermissions=true 
     Sleep    6s
