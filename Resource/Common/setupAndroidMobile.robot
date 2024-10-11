@@ -1,21 +1,29 @@
 *** Settings ***
 Resource                    ../../Routes/appRoutes.robot
 
+
 *** Variables ***
 ${AppiumServer}                    http://localhost:4723/wd/hub
 ${platformName}                    Android
-${platfromVersion}                 11
-${deviceName}                      emulator-5554
+# Default or leave blank for dynamic values
+${deviceName}                      None
+# ${deviceName}                      emulator-5554
 # ${deviceName}                      K1AXGF03C126K7L
-#appium
+${platfromVersion}                 None
 ${automationName}                  Uiautomator2
-# ${automationName}                  flutter
 ${appPackage}                      com.cloudiex.possaku
 ${appActivity}                     com.cloudiex.possaku.MainActivity
 
-
 *** Keywords ***
+    
 Setup and open dialer Android App 
-        ${AndroidDriver}=    Open Application        ${AppiumServer}    platformName=${platformName}    platformVersion=${platfromVersion}    deviceName=${Device_name}     
-        ...    automationName=${automationName}    appPackage=${appPackage}    newCommandTimeout=3000      appActivity=${appActivity}    autoGrantPermissions=true 
+    # Open the application without hardcoding deviceName and platformVersion
+    ${AndroidDriver}=    Open Application    ${AppiumServer}    platformName=${platformName}     
+    ...    automationName=${automationName}    appPackage=${appPackage}    newCommandTimeout=3000     
+    ...    appActivity=${appActivity}    autoGrantPermissions=true
+
+    # Get device name and Android version dynamically from session capabilities
+    ${deviceName}=      Get Capability    deviceName
+    ${platformVersion}=  Get Capability    platformVersion
+
     Sleep    6s
