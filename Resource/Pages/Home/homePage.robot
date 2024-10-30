@@ -18,10 +18,11 @@ ${filterDateButton}                          xpath=//android.widget.ScrollView/a
 
 # main menu
 ${kasirElement}                              xpath=//android.widget.ImageView[@content-desc="Kasir "]
+${daftarPelangganElement}                    xpath=//android.widget.ScrollView/android.view.View[14]/android.view.View/android.view.View[3]
 
 *** Keywords ***
 Click lewati button in Atur Keuangan Pop Up if appear
-    Sleep    2s
+    Sleep    3s
     ${is_visible}=    Run Keyword And Return Status     Element Should Be Visible    ${lewatiButtonAturKeuanganPopUp} 
     Run Keyword If    '${is_visible} = True'    Click Element     ${lewatiButtonAturKeuanganPopUp}
 
@@ -85,5 +86,8 @@ Verify store open
     ${True}=     Convert String To Boolean    ${string_value}
     Should Be Equal    ${is_enabled}    ${True}
 
+Click in Daftar Pelanggan button
+    Element Should Be Visible    ${daftarPelangganElement}
+    Click Element  ${daftarPelangganElement}
 
 

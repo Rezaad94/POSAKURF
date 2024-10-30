@@ -13,4 +13,7 @@ Resource                ../Resource/Pages/Login/loginPage.robot
 Resource                ../Resource/Pages/splashScreen/splashScreenPage.robot
 
 #- Home -#
-Resource                ../Resource//Pages/Home/homePage.robot
+Resource                ../Resource/Pages/Home/homePage.robot
+
+#- Daftar Pelanggan -#
+Resource                ../Resource/Pages/DafrarPelanggan/daftarPelangganPage.robot
