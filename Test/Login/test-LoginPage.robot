@@ -9,7 +9,7 @@ Test Teardown          Close All Applications
 
 *** Test Cases ***
 TC001 - Login with not Input Phone and PIN
-    [Tags]     Negetive Cases
+    [Tags]     Negative Cases
     splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Click Masuk Button
@@ -17,7 +17,7 @@ TC001 - Login with not Input Phone and PIN
     loginPage.Verify Phone Number not Inputed
 
 TC002 - Login with not Input Phone and input PIN
-    [Tags]     Negetive Cases
+    [Tags]     Negative Cases
     splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${empty}
@@ -26,7 +26,7 @@ TC002 - Login with not Input Phone and input PIN
     loginPage.Verify Phone Number not Inputed
 
 TC003 - Login with Input Phone and not input PIN
-    [Tags]     Negetive Cases
+    [Tags]     Negative Cases
     splashScreenPage.Click Lewati Button in Splash Screen
     loginPage.Navigate to login page
     loginPage.Input Phone Number    ${ownerPhone}

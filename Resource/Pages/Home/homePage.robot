@@ -19,6 +19,9 @@ ${filterDateButton}                          xpath=//android.widget.ScrollView/a
 # main menu
 ${kasirElement}                              xpath=//android.widget.ImageView[@content-desc="Kasir "]
 ${daftarPelangganElement}                    xpath=//android.widget.ScrollView/android.view.View[14]/android.view.View/android.view.View[3]
+${lainlainElement}                           xpath=//android.widget.ImageView[@content-desc="Lain-Lain"]
+${daftarKaryawanElement}                     xpath=//android.widget.ImageView[@content-desc="Daftar Karyawan"]
+
 
 *** Keywords ***
 Click lewati button in Atur Keuangan Pop Up if appear

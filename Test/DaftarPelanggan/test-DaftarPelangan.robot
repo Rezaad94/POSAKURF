@@ -29,7 +29,7 @@ TC003 - Create Pelanggan without Photo and Document
     [Tags]    Negative Cases
     daftarPelangganPage.Input pelanggan name
     daftarPelangganPage.Input phone Pelanggan
-    daftarPelangganPage.Scroll Page until submit button
+    daftarPelangganPage.Scroll down in page
     daftarpelangganPage.Input email pelanggan
     daftarPelangganPage.Submit Pelanggan
 
@@ -42,10 +42,19 @@ TC004 - Create Pelanggan with Photo and Document
     daftarPelangganPage.Input phone Pelanggan
     daftarPelangganPage.Click upload document field
     daftarPelangganPage.Take photo by camera
-    daftarPelangganPage.Scroll Page until submit button
+    daftarPelangganPage.Scroll down in page
     daftarpelangganPage.Input email pelanggan
     daftarPelangganPage.Submit Pelanggan
+    daftarPelangganPage.Wait pop Up submit gone
 
+TC005 - Delete Pelanggan
+    daftarPelangganPage.Click in first pelanggan in list
+    daftarPelangganPage.Scroll down in page
+    daftarPelangganPage.Click in delete pelanggan button
+
+TC006 - Search pelanggan
+    daftarPelangganPage.Search pelanggan    ${namaPelanggan}
+    daftarPelangganPage.Verify search correct    ${namaPelanggan}
 
 # TC005 - Edit Pelanggan name
 #     [Tags]    Positive Cases

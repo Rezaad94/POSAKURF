@@ -8,6 +8,7 @@ ${lewatiButtonDaftarPelangganFTUI}        xpath=//android.view.View[@content-des
 ${lanjutkanButtonDaftarPelangganFTUI}     xpath=//android.view.View[@content-desc="Lanjutkan"]
 ${tambahPelangganButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]
 ${detailFirstPelangganElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.view.View[1]
+${searchPelangganElement}                 xpath=//android.widget.EditText[@text="Cari pelanggan"]
 
 # tambah pelanggan element #
 ${tambahFotoPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]
@@ -19,6 +20,7 @@ ${inputEmailPelangganElement}                        xpath=//android.widget.Edit
 ${simpanPelangganButtonElement}                      xpath=//android.view.View[@content-desc="Simpan"]
 ${errorMessageEmptyNamePelanggan}                    Nama depan belum diisi
 ${errorMessageEmptyPhonePelanggan}                   Isikan nomor telepon anda
+${loadingSubmitPopUpText}                            Mohon tunggu
 
 # camera #
 ${selectCameraPhoto}                                 xpath=//android.widget.Button[@content-desc="Kamera"]
@@ -27,17 +29,16 @@ ${shutterCameraButton}                               id=com.android.camera2:id/s
 ${doneCameraPhoto}                                   id=com.android.camera2:id/done_button
 ${doneCropPhoto}                                     id=com.cloudiex.possaku:id/menu_crop
 
-
 # detail Pelanggan #
 ${updatePelangganButton}                            xpath=//android.widget.Button[@content-desc="Update"]
-
-# global variable #
-${setNamaPelanggan}
-${editedNamaPelanggan}
+${deletePelangganButton}                            xpath=//android.view.View[@content-desc="Hapus Pelanggan"]
+${yaPopUpConfirmationDeletePelanggan}               xpath=//android.widget.Button[@content-desc="Ya"]
+${namaPelanggan}                                    Pelanggan
+${pelangganDetailElement}                           xpath=//android.view.View[@content-desc="Informasi Personal Nama Lengkap Pelanggan pERb Nomor HP +628226876429 Foto Identitas"]
 
 *** Keywords ***
 Lewati daftar Pelanggan FTUI if appear
-    ${present}=      Run Keyword And Return Status    Element Should Be Visible   ${daftarPelannganFTUI}
+    ${present}=      Run Keyword And Return Status    Wait Until Page Contains Element   ${daftarPelannganFTUI}
     Run Keyword If    '${present} = True'  Click Element    ${lewatiButtonDaftarPelangganFTUI}
     Sleep    2s
 
@@ -76,7 +77,6 @@ Verify Error message correct appear
 
 Allow permission camera if appear
     ${present}=      Run Keyword And Return Status       Wait Until Page Contains Element   ${allowWhileUseAppCameraPermission}
-    Log    ${present}
     Run Keyword If    ${present} == 'True'      Click Element    ${allowWhileUseAppCameraPermission}   
     Sleep    2s
 
@@ -110,5 +110,23 @@ Get text first pelanggan list
     ${pelangganName}    Get Text    ${detailFirstPelangganElement}
     Log    ${pelangganName}
 
-Scroll Page until submit button
+Scroll down in page
    Swipe     53     1047    0    0
+
+Wait pop Up submit gone
+    Wait Until Page Does Not Contain    ${loadingSubmitPopUpText}        10s
+
+Click in delete pelanggan button
+    Wait Until Element Is Visible    ${deletePelangganButton}
+    Click Element    ${deletePelangganButton}
+    Wait Until Element Is Visible    ${yaPopUpConfirmationDeletePelanggan}
+    Click Element    ${yaPopUpConfirmationDeletePelanggan}
+
+Search pelanggan
+    Wait Until Element Is Visible    ${searchPelangganElement}
+    [Arguments]        ${namaPelanggan}
+    Input Text    ${searchPelangganElement}    ${namaPelanggan}
+
+Verify search correct
+    [Arguments]     ${namaPelanggan}
+    Page Should Contain Text    ${namaPelanggan}

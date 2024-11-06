@@ -59,7 +59,7 @@ Click Masuk Button
     Sleep    1s  
 
 Verify Navigate to Home Page
-    Sleep    2s
+    Sleep    3s
     Page Should Contain Text    ${welcomeText}  
     Page Should Not Contain Element         ${phoneNumberField}
 
