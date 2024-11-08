@@ -9,6 +9,8 @@ ${lanjutkanButtonDaftarPelangganFTUI}     xpath=//android.view.View[@content-des
 ${tambahPelangganButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]
 ${detailFirstPelangganElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.view.View[1]
 ${searchPelangganElement}                 xpath=//android.widget.EditText[@text="Cari pelanggan"]
+${viewCustomerDebtElement}                xpath=//android.widget.Switch
+${containTextHutang}                      //android.view.View[contains(@content-desc, "Hutang")]
 
 # tambah pelanggan element #
 ${tambahFotoPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]
@@ -130,3 +132,18 @@ Search pelanggan
 Verify search correct
     [Arguments]     ${namaPelanggan}
     Page Should Contain Text    ${namaPelanggan}
+
+Click in toogle button Customer debt 
+    Wait Until Element Is Visible    ${viewCustomerDebtElement}
+    Click Element    ${viewCustomerDebtElement}
+    Sleep    2s
+
+Verify Customer debt appear
+    ${count}     Get Matching Xpath Count      ${containTextHutang}
+    IF    ${count} > 2
+        Pass Execution    PASS
+    ELSE
+        Fail
+    END
+
+ 

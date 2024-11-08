@@ -16,4 +16,7 @@ Resource                ../Resource/Pages/splashScreen/splashScreenPage.robot
 Resource                ../Resource/Pages/Home/homePage.robot
 
 #- Daftar Pelanggan -#
-Resource                ../Resource/Pages/DafrarPelanggan/daftarPelangganPage.robot
+Resource                ../Resource/Pages/DaftarPelanggan/daftarPelangganPage.robot
+
+#- Daftar karyawan -#
+Resource                ../Resource/Pages/DaftarKaryawan/daftarKaryawanPage.robot

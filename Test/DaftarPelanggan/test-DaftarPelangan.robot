@@ -48,14 +48,21 @@ TC004 - Create Pelanggan with Photo and Document
     daftarPelangganPage.Wait pop Up submit gone
 
 TC005 - Delete Pelanggan
+    [Tags]    Positive Cases
     daftarPelangganPage.Click in first pelanggan in list
     daftarPelangganPage.Scroll down in page
     daftarPelangganPage.Click in delete pelanggan button
 
 TC006 - Search pelanggan
+    [Tags]    Positive Cases
     daftarPelangganPage.Search pelanggan    ${namaPelanggan}
     daftarPelangganPage.Verify search correct    ${namaPelanggan}
 
+TC007 - View Customer debt
+    [Tags]    Positive Cases
+    daftarPelangganPage.Click in toogle button Customer debt
+    daftarpelangganPage.Verify Customer debt appear
+    
 # TC005 - Edit Pelanggan name
 #     [Tags]    Positive Cases
 #     daftarPelangganPage.Get text first pelanggan list
