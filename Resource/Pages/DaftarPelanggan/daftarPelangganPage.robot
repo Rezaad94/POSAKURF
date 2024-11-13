@@ -11,11 +11,13 @@ ${detailFirstPelangganElement}            xpath=//android.widget.FrameLayout[@re
 ${searchPelangganElement}                 xpath=//android.widget.EditText[@text="Cari pelanggan"]
 ${viewCustomerDebtElement}                xpath=//android.widget.Switch
 ${containTextHutang}                      //android.view.View[contains(@content-desc, "Hutang")]
+${broadcastElementButton}                 xpath=//android.widget.ImageView
 
 # tambah pelanggan element #
 ${tambahFotoPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]
 ${ubahFotoPelangganElement}                          xpath=//android.widget.Button[@content-desc="Ubah Foto"]
-${inputNamaLengkapPelangganElement}                  xpath=//android.widget.EditText[@text="Nama Lengkap"]
+# ${inputNamaLengkapPelangganElement}                  xpath=//android.widget.EditText[@text="Nama Lengkap"]
+${inputNamaLengkapPelangganElement}                  //android.widget.EditText[contains(@text, "Nama Lengkap")]
 ${inputNoHPPelangganElement}                         xpath=//android.widget.EditText[@text="Nomor handphone"]
 ${uploadIdentitasPelanngganElement}                  xpath=//android.view.View[@content-desc="Upload Identitas"]
 ${inputEmailPelangganElement}                        xpath=//android.widget.EditText[@text="Email"]
@@ -36,7 +38,9 @@ ${updatePelangganButton}                            xpath=//android.widget.Butto
 ${deletePelangganButton}                            xpath=//android.view.View[@content-desc="Hapus Pelanggan"]
 ${yaPopUpConfirmationDeletePelanggan}               xpath=//android.widget.Button[@content-desc="Ya"]
 ${namaPelanggan}                                    Pelanggan
+${namaPelangganEdited}                              Pelanggan Edit
 ${pelangganDetailElement}                           xpath=//android.view.View[@content-desc="Informasi Personal Nama Lengkap Pelanggan pERb Nomor HP +628226876429 Foto Identitas"]
+                             
 
 *** Keywords ***
 Lewati daftar Pelanggan FTUI if appear
@@ -50,10 +54,11 @@ Click add pelanggan button
     Sleep    2s
 
 Input pelanggan name
+    [Arguments]                  ${textNamaPelanggan}
     Element Should Be Visible    ${inputNamaLengkapPelangganElement}
     Click Element    ${inputNamaLengkapPelangganElement}
     ${lastName} =  Generate Random String  4  [LETTERS]
-    Input Text    ${inputNamaLengkapPelangganElement}   Pelanggan ${lastName}
+    Input Text    ${inputNamaLengkapPelangganElement}   ${textNamaPelanggan} ${lastName}
     
 
 Input phone Pelanggan
@@ -101,11 +106,13 @@ Take photo by camera
 
 Click in first pelanggan in list
     Click Element    ${detailFirstPelangganElement}
+    Sleep    2s
 
 Verify in detail pelanggan page
     Element Should Be Visible    ${updatePelangganButton}
 
 Click in update pelanggan button
+    Wait Until Page Contains Element    ${updatePelangganButton}
     Click Element    ${updatePelangganButton}
 
 Get text first pelanggan list
@@ -123,6 +130,7 @@ Click in delete pelanggan button
     Click Element    ${deletePelangganButton}
     Wait Until Element Is Visible    ${yaPopUpConfirmationDeletePelanggan}
     Click Element    ${yaPopUpConfirmationDeletePelanggan}
+    Sleep    2s
 
 Search pelanggan
     Wait Until Element Is Visible    ${searchPelangganElement}
@@ -146,4 +154,6 @@ Verify Customer debt appear
         Fail
     END
 
- 
+Verify Nama Pelanggan Edited
+    Page Should Contain Text    ${namaPelangganEdited}
+     

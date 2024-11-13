@@ -19,8 +19,9 @@ ${filterDateButton}                          xpath=//android.widget.ScrollView/a
 # main menu
 ${kasirElement}                              xpath=//android.widget.ImageView[@content-desc="Kasir "]
 ${daftarPelangganElement}                    xpath=//android.widget.ScrollView/android.view.View[14]/android.view.View/android.view.View[3]
+# ${daftarPelangganElement}                    xpath=//android.widget.ImageView[contains(@content-desc="Daftar Pelanggan")]
 ${lainlainElement}                           xpath=//android.widget.ImageView[@content-desc="Lain-Lain"]
-${daftarKaryawanElement}                     xpath=//android.widget.ImageView[@content-desc="Daftar Karyawan"]
+${daftarKaryawanElement}                     xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.view.View[3]
 
 
 *** Keywords ***
@@ -93,4 +94,10 @@ Click in Daftar Pelanggan button
     Element Should Be Visible    ${daftarPelangganElement}
     Click Element  ${daftarPelangganElement}
 
+Click in lain - lain menu
+    Element Should Be Visible    ${lainlainElement}
+    Click Element    ${lainlainElement}
 
+Click in Daftar Karyawan Button
+    Element Should Be Visible    ${daftarKaryawanElement}
+    Click Element    ${daftarKaryawanElement}
