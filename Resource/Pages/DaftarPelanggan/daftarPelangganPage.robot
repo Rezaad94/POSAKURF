@@ -135,6 +135,7 @@ Click in delete pelanggan button
 Search pelanggan
     Wait Until Element Is Visible    ${searchPelangganElement}
     [Arguments]        ${namaPelanggan}
+    Click Element    ${searchPelangganElement}
     Input Text    ${searchPelangganElement}    ${namaPelanggan}
 
 Verify search correct

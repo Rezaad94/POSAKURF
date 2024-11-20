@@ -23,12 +23,17 @@ TC002 - Navigate in to Daftar karyawan list page
     daftarKaryawanPage.Lewati daftar Karyawan FTUI if appear
     daftarKaryawanPage.Verify in Daftar karyawan list page
 
-TC003 - View Gaji Karyawan
+TC003 - View Gaji karyawan
     [Tags]    Positive Cases
     daftarKaryawanPage.Click in toogle button Gaji Bulanan
     daftarKaryawanPage.Verify Gaji Bulanan Karyawan appear
 
-TC004 - Deactivated karyawan
+TC004 - Search karyawan
+    [Tags]    Positive Cases
+    daftarKaryawanPage.Search karyawan    ${namaKaryawan}
+    daftarKaryawanPage.Verify search correct    ${namaKaryawan}
+
+TC005 - Deactivated karyawan
     [Tags]    Positive Cases
     daftarKaryawanPage.Click in first karyawan in list
     daftarPelangganPage.Scroll down in page
@@ -36,8 +41,24 @@ TC004 - Deactivated karyawan
     daftarKaryawanPage.Click ya in pop up confirmation karyawan activation
     daftarKaryawanPage.Verify karyawan deactivated
 
-TC005 - Activated Karyawan
+TC006 - Activated karyawan
+    [Tags]    Positive Cases
     daftarkaryawanPage.Click in button Activated karyawan
     daftarKaryawanPage.Click ya in pop up confirmation karyawan activation
     daftarKaryawanPage.Verify karyawan activated
+
+TC007 - Upload Slip Gaji karyawan
+    [Tags]    Positive Cases
+    daftarkaryawanPage.Click in Upload Slip Gaji
+    daftarkaryawanPage.Click upload image gaji field
+    daftarPelangganPage.Take photo by camera
+    daftarkaryawanPage.Submit slip gaji
+    daftarkaryawanPage.Click ya in pop up confirmation upload gaji
+
+TC008 - Change PIN karyawan
+    [Tags]    Positive Cases
+    daftarkaryawanPage.Click in Ubah PIN button
+    daftarkaryawanPage.Input New karyawan PIN    ${ownerPIN}
+    daftarkaryawanPage.Click simpan new karyawan PIN button
+    daftarkaryawanPage.Click selesai in pop up confirmation change PIN karyawan
     
