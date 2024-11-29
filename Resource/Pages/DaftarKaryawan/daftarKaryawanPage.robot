@@ -23,6 +23,8 @@ ${deactivateSuccessWarningMessage}       Status Karyawan Berhasil dinonaktifkan
 ${ubahPINButton}                         xpath=//android.view.View[@content-desc="Ubah PIN"]
 ${uploadSlipGajiKaryawanButton}          xpath=//android.view.View[@content-desc="Upload Slip Gaji"]
 ${namaKaryawan}                          Karyawan
+${updateKaryawanElement}                 xpath=//android.widget.ImageView[contains(@content-desc, 'Update')]
+
 
 # ubah PIN page
 ${newPINElement}                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]
@@ -30,13 +32,22 @@ ${newPINKonfirmation}                    xpath=//android.widget.FrameLayout[@res
 ${simpanPINButton}                       xpath=//android.view.View[@content-desc="Simpan"]
 ${selesaiPopUpPINButton}                    xpath=//android.widget.Button[@content-desc="Selesai"]
 
-
 # upload slip gaji page
 ${uploadSlipGajiElement}                 xpath=//android.view.View[@content-desc="Upload Foto"]
 ${submitSlipGajiButton}                  xpath=//android.view.View[@content-desc="Upload Bukti"]
 ${yaPopUpKonfirmationUploadGaji}          xpath=//android.widget.Button[@content-desc="Ya"]
 
-
+# edit karyawan page
+${nameKaryawanElement}                    xpath=//android.widget.EditText[contains(@text, 'Nama')]
+${gajiKaryawanElement}                    xpath=//android.widget.EditText[contains(@text, 'Nominal Gaji')]
+${ubahFotoKaryawanElement}                xpath=//android.widget.Button[@content-desc="Ubah Foto"]
+${ubahFotoKTPElement}                     xpath=//android.widget.ScrollView/android.widget.ImageView[2]
+${kasirHakAksesElement}                   xpath=//android.widget.ScrollView/android.widget.RadioButton[1]
+${supervisorHakAksesElement}              xpath=//android.widget.ScrollView/android.widget.RadioButton[2]
+${yaPopUPConfirmationEditKaryawan}        xpath=//android.widget.Button[@content-desc="Ya"]
+${simpanKaryawanButton}                   xpath=//android.view.View[@content-desc="Simpan"]
+${namaKaryawanEdited}                     Karyawan Edit
+${gajiKaryawanEdited}                     1200000
 
 *** Keywords ***
 Verify in Daftar karyawan list page
@@ -138,3 +149,23 @@ Click simpan new karyawan PIN button
 Click selesai in pop up confirmation change PIN karyawan
     Element Should Be Visible    ${selesaiPopUpPINButton}
     Click Element    ${selesaiPopUpPINButton}
+
+Click in Update Karyawan button
+    Element Should Be Visible    ${updateKaryawanElement}
+    Click Element    ${updateKaryawanElement}
+
+Fill in name karyawan element
+    [Arguments]          ${namaKaryawan}
+    Click Element    ${nameKaryawanElement}
+    Input Text    ${nameKaryawanElement}    ${namaKaryawan}
+
+Fill in gaji karyawan
+    [Arguments]        ${gajiKaryawan}
+    Click Element    ${gajiKaryawanElement}
+    Input Text    ${gajiKaryawanElement}    ${gajiKaryawan} 
+
+Click in simpan Karyawan Button
+    Click Element    ${simpanKaryawanButton}  
+
+Click in ya in pop up confirmation Karyawan
+    Click Element    ${yaPopUPConfirmationEditKaryawan}

@@ -62,3 +62,11 @@ TC008 - Change PIN karyawan
     daftarkaryawanPage.Click simpan new karyawan PIN button
     daftarkaryawanPage.Click selesai in pop up confirmation change PIN karyawan
     
+# TC009 - Edit Karyawan Name
+#     [Tags]    Positive Cases
+#     daftarKaryawanPage.Click in Update Karyawan button
+#     daftarKaryawanPage.Fill in name karyawan element    ${namaKaryawanEdited}
+#     daftarKaryawanPage.Fill in gaji karyawan    ${gajiKaryawanEdited}
+#     daftarPelangganPage.Scroll down in page
+#     daftarKaryawanPage.Click in simpan Karyawan Button
+#     daftarKaryawanPage.Click in ya in pop up confirmation Karyawan
