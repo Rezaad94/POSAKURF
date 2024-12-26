@@ -3,7 +3,7 @@ Resource        ../../../Routes/appRoutes.robot
 
 *** Variables ***
 ${lewatiButton}                xpath=//android.widget.Button[@content-desc="Lewati"]
-${arrowToNext}                 xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.Button[2]
+${arrowToNext}                 xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.widget.Button[2]
 ${page1Title}                  Tansaksi Mudah
 ${page1Wording}                Buat mesin kasir hanya dengan genggamanmu
 ${page2Title}                  Scan Barang

@@ -7,10 +7,10 @@ ${daftarKaryawanFTUI}                    xpath=//android.view.View[@content-desc
 ${lewatiButtonDaftarKaryawanFTUI}        xpath=//android.view.View[@content-desc="Lewati"]
 ${lanjutkanButtonDaftarKaryawanFTUI}     xpath=//android.view.View[@content-desc="Lanjutkan"]
 ${viewGajiKaryawanElement}               xpath=//android.widget.Switch
-${detailFirstKaryawanElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.view.View[1]
-${tambahKaryawanButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]
+${detailFirstKaryawanElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[3]//android.view.View/android.view.View
+${tambahKaryawanButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[1]//android.view.View[2]
 ${containTextGajiBulanan}                //android.view.View[contains(@content-desc, "Gaji Bulanan")]
-${searchKaryawanElement}                 xpath=//android.widget.EditText[@text="Cari karyawan"]
+${searchKaryawanElement}                 xpath=//android.widget.EditText
 
 # Detail Karyawan #
 ${deacftiveKaryawanButton}              xpath=//android.widget.Button[@content-desc="Non Aktifkan"]
@@ -27,8 +27,8 @@ ${updateKaryawanElement}                 xpath=//android.widget.ImageView[contai
 
 
 # ubah PIN page
-${newPINElement}                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[1]
-${newPINKonfirmation}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.EditText[2]
+${newPINElement}                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.widget.EditText[1]
+${newPINKonfirmation}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.widget.EditText[2]
 ${simpanPINButton}                       xpath=//android.view.View[@content-desc="Simpan"]
 ${selesaiPopUpPINButton}                    xpath=//android.widget.Button[@content-desc="Selesai"]
 
@@ -81,20 +81,22 @@ Verify in detail karyawan page
 Click in button Deactivated Karyawan
     Element Should Be Visible    ${deacftiveKaryawanButton}
     Click Element    ${deacftiveKaryawanButton}
+    Wait Until Page Does Not Contain    ${loadingSubmitPopUpText}
 
 Verify karyawan deactivated
     Element Should Be Visible    ${activateKaryawanButton}
-    Sleep    4s
+    Sleep    2s
     # Page Should Contain Text  ${deactivateSuccessWarningMessage}
     # Wait Until Page Does Not Contain   ${deactivateSuccessWarningMessage}
 
 Click in button Activated karyawan
+    Sleep    5s
     Element Should Be Visible    ${activateKaryawanButton}
     Click Element    ${activateKaryawanButton}
 
 Verify karyawan activated
     Element Should Be Visible    ${deacftiveKaryawanButton}
-    Sleep    4s
+    Sleep    2s
     # Page Should Contain Text    ${activateSuccessWarningMessage}
     # Wait Until Page Does Not Contain    ${activateSuccessWarningMessage}
 
@@ -147,8 +149,10 @@ Click simpan new karyawan PIN button
     Click Element    ${simpanPINButton}
 
 Click selesai in pop up confirmation change PIN karyawan
+    Wait Until Page Does Not Contain    ${loadingSubmitPopUpText}
     Element Should Be Visible    ${selesaiPopUpPINButton}
     Click Element    ${selesaiPopUpPINButton}
+    
 
 Click in Update Karyawan button
     Element Should Be Visible    ${updateKaryawanElement}

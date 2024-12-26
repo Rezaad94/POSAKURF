@@ -2,10 +2,10 @@
 Resource        ../../../Routes/appRoutes.robot
 
 *** Variables ***
-${phoneNumberField}            xpath=//android.widget.EditText[@text="Nomor Handphone"]
-# ${phoneNumberField}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]
+# ${phoneNumberField}            xpath=//android.widget.EditText[@text="Nomor Handphone"]
+${phoneNumberField}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.widget.EditText[1]
 ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Handphone +62xxxxxxxxxx"]
-${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]
+${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.widget.EditText[2]
 # ${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
 ${masukButton}                 xpath=//android.widget.Button[@content-desc="Masuk"] 
@@ -51,15 +51,15 @@ Input PIN
     Element Should Be Visible    ${PINField} 
     Click Element    ${PINField} 
     Sleep    1s
-    Input Text    ${PINFieldAfterClick}     ${PIN}
+    Input Text    ${PINField}     ${PIN}
     Sleep    1s
 
 Click Masuk Button
     Click Element        ${masukButton}
-    Sleep    1s  
+    Sleep    10s  
 
 Verify Navigate to Home Page
-    Sleep    3s
+    Sleep    2s
     Page Should Contain Text    ${welcomeText}  
     Page Should Not Contain Element         ${phoneNumberField}
 
@@ -69,6 +69,8 @@ Verify Phone Number not Inputed
 
 Verify PIN not Inputed
     # Element Should Be Visible   ${notInputPINError}
+    ${Message}=     Get Text    ${PINField}
+    Log  ${Message}
     Page Should Contain Text      ${notInputPINError}
 
 Verify Wrong input PIN

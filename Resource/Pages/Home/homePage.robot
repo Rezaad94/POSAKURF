@@ -21,8 +21,7 @@ ${kasirElement}                              xpath=//android.widget.ImageView[@c
 ${daftarPelangganElement}                    xpath=//android.widget.ScrollView/android.view.View[14]/android.view.View/android.view.View[3]
 # ${daftarPelangganElement}                    xpath=//android.widget.ImageView[contains(@content-desc="Daftar Pelanggan")]
 ${lainlainElement}                           xpath=//android.widget.ImageView[@content-desc="Lain-Lain"]
-${daftarKaryawanElement}                     xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.view.View[3]
-
+${daftarKaryawanElement}                     xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[3]
 
 *** Keywords ***
 Click lewati button in Atur Keuangan Pop Up if appear

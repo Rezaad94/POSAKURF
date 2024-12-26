@@ -14,4 +14,4 @@ Library                 DatabaseLibrary
 Library                 pymysql
 Library                 XML
 Library                 pyotp
-
+Library                 appiumManager.py

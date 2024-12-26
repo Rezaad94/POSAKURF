@@ -3,7 +3,7 @@ Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Home Page
 Task Tags               Home Page
 Suite Setup             Setup and open dialer Android App
-Suite Teardown          Close All Applications
+Suite Teardown          Close mobile Application
 
 *** Test Cases ***
 TC001 - Login with Valid Phone and PIN +628.. Format

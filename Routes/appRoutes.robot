@@ -20,3 +20,6 @@ Resource                ../Resource/Pages/DaftarPelanggan/daftarPelangganPage.ro
 
 #- Daftar karyawan -#
 Resource                ../Resource/Pages/DaftarKaryawan/daftarKaryawanPage.robot
+
+#- Usahaku -# 
+Resource                ../Resource/Pages/Usahaku/usahakuPage.robot

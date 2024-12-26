@@ -6,21 +6,21 @@ Resource        ../../../Routes/appRoutes.robot
 ${daftarPelannganFTUI}                    xpath=//android.view.View[@content-desc="Tambahkan pelanggan Anda melalui fungsi tombol ini"]
 ${lewatiButtonDaftarPelangganFTUI}        xpath=//android.view.View[@content-desc="Lewati"]
 ${lanjutkanButtonDaftarPelangganFTUI}     xpath=//android.view.View[@content-desc="Lanjutkan"]
-${tambahPelangganButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]
-${detailFirstPelangganElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]/android.view.View/android.view.View[1]
-${searchPelangganElement}                 xpath=//android.widget.EditText[@text="Cari pelanggan"]
+${tambahPelangganButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.widget.FrameLayout//android.view.View[1]//android.view.View[2]
+${detailFirstPelangganElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[3]//android.view.View[1]
+${searchPelangganElement}                 xpath=//android.widget.EditText
 ${viewCustomerDebtElement}                xpath=//android.widget.Switch
 ${containTextHutang}                      //android.view.View[contains(@content-desc, "Hutang")]
 ${broadcastElementButton}                 xpath=//android.widget.ImageView
 
 # tambah pelanggan element #
-${tambahFotoPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]
+${tambahFotoPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.view.View[1]
 ${ubahFotoPelangganElement}                          xpath=//android.widget.Button[@content-desc="Ubah Foto"]
 # ${inputNamaLengkapPelangganElement}                  xpath=//android.widget.EditText[@text="Nama Lengkap"]
-${inputNamaLengkapPelangganElement}                  //android.widget.EditText[contains(@text, "Nama Lengkap")]
-${inputNoHPPelangganElement}                         xpath=//android.widget.EditText[@text="Nomor handphone"]
+${inputNamaLengkapPelangganElement}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.widget.EditText[1]
+${inputNoHPPelangganElement}                         xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.widget.EditText[2]
 ${uploadIdentitasPelanngganElement}                  xpath=//android.view.View[@content-desc="Upload Identitas"]
-${inputEmailPelangganElement}                        xpath=//android.widget.EditText[@text="Email"]
+${inputEmailPelangganElement}                        xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[2]//android.widget.EditText[3]
 ${simpanPelangganButtonElement}                      xpath=//android.view.View[@content-desc="Simpan"]
 ${errorMessageEmptyNamePelanggan}                    Nama depan belum diisi
 ${errorMessageEmptyPhonePelanggan}                   Isikan nomor telepon anda
@@ -40,7 +40,7 @@ ${yaPopUpConfirmationDeletePelanggan}               xpath=//android.widget.Butto
 ${namaPelanggan}                                    Pelanggan
 ${namaPelangganEdited}                              Pelanggan Edit
 ${pelangganDetailElement}                           xpath=//android.view.View[@content-desc="Informasi Personal Nama Lengkap Pelanggan pERb Nomor HP +628226876429 Foto Identitas"]
-                             
+${pelangganFilledName}                              xpath=//android.widget.EditText
 
 *** Keywords ***
 Lewati daftar Pelanggan FTUI if appear

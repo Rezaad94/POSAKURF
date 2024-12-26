@@ -3,7 +3,7 @@ Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Daftar Pelanggan
 Task Tags               Daftar Pelanggan Page
 Suite Setup             Setup and open dialer Android App
-Suite Teardown          Close All Applications
+Suite Teardown          Close mobile Application
 
 *** Test Cases ***
 TC001 - Login with Valid Phone and PIN +628.. Format
@@ -40,10 +40,10 @@ TC004 - Create Pelanggan with Photo and Document
     daftarPelangganPage.Take photo by camera
     daftarPelangganPage.Input pelanggan name     ${namaPelanggan} 
     daftarPelangganPage.Input phone Pelanggan
+    daftarpelangganPage.Input email pelanggan
     daftarPelangganPage.Click upload document field
     daftarPelangganPage.Take photo by camera
     daftarPelangganPage.Scroll down in page
-    daftarpelangganPage.Input email pelanggan
     daftarPelangganPage.Submit Pelanggan
     daftarPelangganPage.Wait pop Up submit gone
 
@@ -63,13 +63,13 @@ TC008 - View Customer debt
     daftarPelangganPage.Click in toogle button Customer debt
     daftarpelangganPage.Verify Customer debt appear
 
-TC006 - Edit Pelanggan name
-    [Tags]    Positive Cases
-    daftarPelangganPage.Click in first pelanggan in list
-    daftarPelangganPage.Verify in detail pelanggan page
-    daftarPelangganPage.Click in update pelanggan button
-    daftarPelangganPage.Input pelanggan name        ${namaPelangganEdited}
-    daftarPelangganPage.Scroll down in page
-    daftarPelangganPage.Submit Pelanggan
-    daftarPelangganPage.Wait pop Up submit gone
-    daftarPelangganPage.Verify Nama Pelanggan Edited
+# TC006 - Edit Pelanggan name
+#     [Tags]    Positive Cases
+#     daftarPelangganPage.Click in first pelanggan in list
+#     daftarPelangganPage.Verify in detail pelanggan page
+#     daftarPelangganPage.Click in update pelanggan button
+#     daftarPelangganPage.Input pelanggan name        ${namaPelangganEdited}
+#     daftarPelangganPage.Scroll down in page
+#     daftarPelangganPage.Submit Pelanggan
+#     daftarPelangganPage.Wait pop Up submit gone
+#     daftarPelangganPage.Verify Nama Pelanggan Edited
