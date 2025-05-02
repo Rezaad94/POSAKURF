@@ -8,7 +8,7 @@ ${phoneNumberFieldAfterClick}  xpath=//android.widget.EditText[@text="Nomor Hand
 ${PINField}                    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.widget.EditText[2]
 # ${PINField}                    xpath=//android.widget.ScrollView/android.widget.EditText[2]
 ${PINFieldAfterClick}          xpath=//android.widget.EditText[@text="|"]
-${masukButton}                 xpath=//android.widget.Button[@content-desc="Masuk"] 
+${masukButton}                 xpath=//android.view.View[@content-desc="Masuk"]
 # ${masukButton}                 id=Masuk
 
 ${okGoogle}                    id=android:id/button1
@@ -28,7 +28,11 @@ ${notRegisteredPhoneError}   Nomor Telepon yang Anda masukkan salah / tidak terd
 ${userNotActiveError}        Status User Tidak Aktif!
 
 #pop up element
-${tutupButtonPupUp}          xpath=//android.widget.Button[@content-desc="Tutup"]
+${tutupButtonPupUp}          xpath=//android.view.View[@content-desc="Dismiss"]
+
+#cart
+${cartButton}                xpath=//android.widget.ImageView[@content-desc="Keranjang (0)"]
+${kasirElement}         xpath=//android.widget.ScrollView/android.view.View[14]/android.view.View/android.view.View[1]
 
 *** Keywords ***
 Navigate to login page
@@ -41,6 +45,7 @@ Input Phone Number
     Element Should Be Visible    ${phoneNumberField}
     Click Element    ${phoneNumberField}
     Input Text Into Current Element    ${phoneNumber}
+    press keycode           66
     # Sleep    1s
     # Input Text    ${phoneNumberField}     ${phoneNumber}
     # Input Text   ${phoneNumberFieldAfterClick}     ${phoneNumber}
@@ -56,10 +61,10 @@ Input PIN
 
 Click Masuk Button
     Click Element        ${masukButton}
-    Sleep    10s  
+    Wait Until Page Does Not Contain    Mohon tunggu    15s
+    Sleep    1s
 
 Verify Navigate to Home Page
-    Sleep    2s
     Page Should Contain Text    ${welcomeText}  
     Page Should Not Contain Element         ${phoneNumberField}
 
@@ -86,3 +91,15 @@ Verify User Not Active
 
 Click tutup Button Pop Up Login
     Click Element    ${tutupButtonPupUp} 
+
+Click keranjang button
+    Element Should Be Visible    ${cartButton}
+    Click Element    ${cartButton}
+
+Verivy cart is empty
+    Page Should Contain Text    Keranjang anda masih kosong
+
+
+Click in kasir
+    Element Should Be Visible    ${kasirElement}
+    Click Element    ${kasirElement}

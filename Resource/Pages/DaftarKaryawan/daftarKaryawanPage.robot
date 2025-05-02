@@ -4,12 +4,12 @@ Resource        ../../../Routes/appRoutes.robot
 *** Variables ***
 # list karyawan element #
 ${daftarKaryawanFTUI}                    xpath=//android.view.View[@content-desc="Tambahkan karyawan Anda melalui fungsi tombol ini"]
-${lewatiButtonDaftarKaryawanFTUI}        xpath=//android.view.View[@content-desc="Lewati"]
+${lewatiButtonDaftarKaryawanFTUI}        xpath=//android.widget.Button[@content-desc="Lewati"]
 ${lanjutkanButtonDaftarKaryawanFTUI}     xpath=//android.view.View[@content-desc="Lanjutkan"]
 ${viewGajiKaryawanElement}               xpath=//android.widget.Switch
 ${detailFirstKaryawanElement}            xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[3]//android.view.View/android.view.View
 ${tambahKaryawanButton}                  xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]//android.view.View[1]//android.view.View[2]
-${containTextGajiBulanan}                //android.view.View[contains(@content-desc, "Gaji Bulanan")]
+${containTextGajiBulanan}                Gaji Bulanan
 ${searchKaryawanElement}                 xpath=//android.widget.EditText
 
 # Detail Karyawan #
@@ -64,7 +64,10 @@ Click in toogle button Gaji Bulanan
     Sleep    2s
 
 Verify Gaji Bulanan Karyawan appear
-    ${count}     Get Matching Xpath Count      ${containTextGajiBulanan}
+    ${elements}=    Get Text    //android.view.View
+    Log    ${elements}
+    ${count}=    Evaluate    sum([1 for element in ${elements} if '${containTextGajiBulanan}' in element])    # Count occurrences
+    Log    Text occurrences: ${count}
     IF    ${count} > 2
         Pass Execution    PASS
     ELSE

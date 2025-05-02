@@ -22,7 +22,7 @@ ${registerTitlePageLine2}      Sekarang Juragan!
 Click Lewati Button in Splash Screen
     Element Should Be Visible    ${lewatiButton}  
     Click Element    ${lewatiButton}  
-    Sleep    1s
+    Sleep    2s
 
 Navigate to Next Page Splash Screen
     Element Should Be Visible    ${arrowToNext}

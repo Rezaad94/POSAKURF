@@ -27,7 +27,8 @@ ${daftarKaryawanElement}                     xpath=//android.widget.FrameLayout[
 Click lewati button in Atur Keuangan Pop Up if appear
     Sleep    3s
     ${is_visible}=    Run Keyword And Return Status     Element Should Be Visible    ${lewatiButtonAturKeuanganPopUp} 
-    Run Keyword If    '${is_visible} = True'    Click Element     ${lewatiButtonAturKeuanganPopUp}
+    Run Keyword If    '${is_visible}' == 'True'    Click Element     ${lewatiButtonAturKeuanganPopUp}
+    Run Keyword If    '${is_visible}' == 'False'    Log    "Button not visible, passing the test"
 
 Slide buka button
     Wait Until Element Is Visible    ${bukaButtonElement}
