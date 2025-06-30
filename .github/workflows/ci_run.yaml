@@ -38,18 +38,13 @@ jobs:
         run: |
           pip install -r Libraries/requirement.txt
           pip install gdown
-          npm install -g appium  # install Appium globally
+          npm install -g appium
 
       - name: Download APK from URL in Libraries/apkUrl.txt
         run: |
           URL=$(cat Libraries/apkUrl.txt)
           echo "Downloading APK from $URL"
           gdown "$URL" -O app.apk
-
-      - name: Start Appium Server in Background
-        run: |
-          nohup appium > appium.log 2>&1 &
-          echo "Appium server started"
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
@@ -60,11 +55,9 @@ jobs:
       - name: Create and start emulator
         run: |
           echo "yes" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager -v create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel_c"
-          export ANDROID_SDK_ROOT=$ANDROID_HOME
-          export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
-          $ANDROID_HOME/emulator/emulator emulator -avd test -no-window -no-audio -no-snapshot &
-
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel_c"
+          nohup emulator -avd test -no-window -no-audio -no-snapshot &
+      
       - name: Wait for emulator to boot
         run: |
           adb wait-for-device
@@ -75,19 +68,18 @@ jobs:
           done
           echo "✅ Emulator ready"
 
-      - name: Restart ADB server
+      - name: Start Appium Server in Background
         run: |
-          adb kill-server
-          adb start-server
-        
+          nohup appium > appium.log 2>&1 &
+          sleep 10  # Biarkan Appium stabil
+
       - name: Install APK on Emulator
-        run: |
-            adb install app.apk
-        
+        run: adb install app.apk
+
       - name: Run Robot Framework Tests 
         run: |
-            echo "🔎 Starting Robot Framework tests"
-            robot -d results Test/
+          echo "🔎 Starting Robot Framework tests"
+          robot -d results Test/
 
       - name: Upload Robot Framework results
         uses: actions/upload-artifact@v4
