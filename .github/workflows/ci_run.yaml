@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r Libraries/requirements.txt
+          pip install -r Libraries/requirement.txt
           pip install gdown
           npm install -g appium  # install Appium globally
 
