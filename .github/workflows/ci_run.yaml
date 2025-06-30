@@ -12,15 +12,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: run tests
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
         run: |
-          echo "Running robot tests on Android emulator"
-          # Start the Android emulator
-          $ANDROID_HOME/emulator/emulator -avd android_11 -no-window -no-audio -gpu swiftshader_indirect &
+          pip install -r requirements.txt
 
-          # Wait for the emulator to start
-          adb wait-for-device
-          adb shell input keyevent 82 &
+      - name: Set up Android SDK
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel
+          script: |
+            adb devices
+            adb install your-app-debug.apk  # ganti dengan path apk kamu
+            robot -d results tests/
 
-          # Run the robot tests
-          robot --outputdir results --loglevel DEBUG tests/
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results
+          path: results/

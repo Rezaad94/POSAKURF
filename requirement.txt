@@ -1,0 +1,11 @@
+robotframework
+Appium-Python-Client
+robotframework-appiumlibrary
+robotframework-databaselibrary
+robotframework-excellib
+robotframework-jsonlibrary
+robotframework-otp
+robotframework-pabot
+robotframework-pythonlibcore
+robotframework-requests
+robotframework-stacktrace
