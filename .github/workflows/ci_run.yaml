@@ -53,6 +53,7 @@ jobs:
         run: |
           echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
           avdmanager -v create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel_c"
+          avdmanager list avd
           export ANDROID_SDK_ROOT=$ANDROID_HOME
           export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
           nohup emulator -avd test -no-window -no-audio -no-snapshot &
