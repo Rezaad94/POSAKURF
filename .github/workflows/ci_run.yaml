@@ -8,11 +8,11 @@ on:
 
 jobs:
   run-tests:
-    name: Run Robot Tests on Android Emulator
+    name: Run Robot Tests with APK from URL File
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -22,9 +22,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirement.txt
+          pip install -r Libraries/requirements.txt
+          pip install gdown
+          npm install -g appium  # install Appium globally
 
-      - name: Set up Android SDK
+      - name: Download APK from URL in Libraries/apkUrl.txt
+        run: |
+          URL=$(cat Libraries/apkUrl.txt)
+          echo "Downloading APK from $URL"
+          gdown "$URL" -O app.apk
+
+      - name: Start Appium Server in Background
+        run: |
+          nohup appium > appium.log 2>&1 &
+          echo "Appium server started"
+
+      - name: Set up Android emulator and run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
@@ -32,11 +45,20 @@ jobs:
           arch: x86_64
           profile: pixel
           script: |
-            adb devices
-            adb install your-app-debug.apk  # ganti dengan path apk kamu
+            adb wait-for-device
+            BOOT_COMPLETED=""
+            while [ "$BOOT_COMPLETED" != "1" ]; do
+              sleep 2
+              BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
+            done
+            echo "✅ Emulator ready"
+
+            adb install app.apk
+
+            echo "🔎 Starting Robot Framework tests"
             robot -d results tests/
 
-      - name: Upload test results
+      - name: Upload Robot Framework results
         uses: actions/upload-artifact@v4
         with:
           name: robot-results
