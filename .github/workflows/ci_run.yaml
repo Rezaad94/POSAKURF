@@ -15,19 +15,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up environment variables
-        run: |
-          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
-          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
-          echo "$ANDROID_HOME/tools" >> $GITHUB_PATH
-          echo "$ANDROID_HOME/tools/bin" >> $GITHUB_PATH
-          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-    
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -36,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r Libraries/requirement.txt
+          pip install -r Libraries/requirements.txt
           pip install gdown
           npm install -g appium
 
@@ -46,49 +38,26 @@ jobs:
           echo "Downloading APK from $URL"
           gdown "$URL" -O app.apk
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Start emulator and run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel
+          disable-animations: true
+          script: |
+            echo "✅ Emulator started"
 
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
+            # Start Appium server
+            nohup appium > appium.log 2>&1 &
+            sleep 10  # Biarkan Appium siap
 
-      - name: Create and start emulator
-        run: |
-          echo "yes" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
+            # Install APK
+            adb install app.apk
 
-          echo "📦 Creating AVD..."
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
-
-          echo "📂 List AVDs:"
-          avdmanager list avd
-          ls -la $HOME/.android/avd/
-
-          echo "🚀 Starting emulator..."
-          nohup emulator -avd test -no-window -no-audio -no-snapshot &
-
-      
-      - name: Wait for emulator to boot
-        run: |
-          adb wait-for-device
-          bootanim=""
-          until [[ "$bootanim" == "stopped" ]]; do
-            bootanim=$(adb shell getprop init.svc.bootanim 2>/dev/null | tr -d '\r')
-            sleep 5
-          done
-          echo "✅ Emulator ready"
-
-      - name: Start Appium Server in Background
-        run: |
-          nohup appium > appium.log 2>&1 &
-          sleep 10  # Biarkan Appium stabil
-
-      - name: Install APK on Emulator
-        run: adb install app.apk
-
-      - name: Run Robot Framework Tests 
-        run: |
-          echo "🔎 Starting Robot Framework tests"
-          robot -d results Test/
+            # Run Robot Framework tests
+            robot -d results Test/
 
       - name: Upload Robot Framework results
         uses: actions/upload-artifact@v4
