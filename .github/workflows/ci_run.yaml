@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r requirement.txt
 
       - name: Set up Android SDK
         uses: reactivecircus/android-emulator-runner@v2
