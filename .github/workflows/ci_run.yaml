@@ -55,8 +55,17 @@ jobs:
       - name: Create and start emulator
         run: |
           echo "yes" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel_c"
+
+          echo "📦 Creating AVD..."
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
+
+          echo "📂 List AVDs:"
+          avdmanager list avd
+          ls -la $HOME/.android/avd/
+
+          echo "🚀 Starting emulator..."
           nohup emulator -avd test -no-window -no-audio -no-snapshot &
+
       
       - name: Wait for emulator to boot
         run: |
