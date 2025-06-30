@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
     
@@ -46,10 +46,13 @@ jobs:
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
       - name: Create and start emulator
         run: |
           echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
-          avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel"
+          avdmanager -v create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel_c"
           export ANDROID_SDK_ROOT=$ANDROID_HOME
           export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
           nohup emulator -avd test -no-window -no-audio -no-snapshot &
