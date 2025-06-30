@@ -50,6 +50,8 @@ jobs:
         run: |
           echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
           avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel"
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
           nohup emulator -avd test -no-window -no-audio -no-snapshot &
 
       - name: Wait for emulator to boot
@@ -74,7 +76,7 @@ jobs:
       - name: Run Robot Framework Tests 
         run: |
             echo "🔎 Starting Robot Framework tests"
-            robot -d results tests/
+            robot -d results Test/
 
       - name: Upload Robot Framework results
         uses: actions/upload-artifact@v4
