@@ -53,7 +53,7 @@ jobs:
             yes | sdkmanager --install "system-images;android-30;google_apis;x86_64"
 
             echo "📂 Creating AVD"
-            avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
+            echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
 
             echo "📃 Listing AVDs"
             avdmanager list avd
