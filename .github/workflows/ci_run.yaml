@@ -55,6 +55,12 @@ jobs:
             BOOT_COMPLETED=""
             while [[ "$BOOT_COMPLETED" == "1" ]]; do
                 BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
+                sleep 3
+            done
+
+            echo "🔎 Verifying Android system services..."
+            until adb shell service check activity | grep -q "found"; do
+                echo "Waiting for activity manager to be available..."
                 sleep 2
             done
 
