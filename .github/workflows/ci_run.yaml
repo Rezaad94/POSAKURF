@@ -47,17 +47,23 @@ jobs:
           profile: pixel
           disable-animations: true
           script: |
+            mkdir -p $HOME/.android
+            touch $HOME/.android/emu-update-last-check.ini
+
+            echo "⏳ Waiting for emulator boot..."
             BOOT_COMPLETED=""
             until [[ "$BOOT_COMPLETED" == "1" ]]; do
                 BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
-                echo "⏳ Waiting for emulator to boot..."
                 sleep 2
             done
 
-            echo "✅ Emulator booted, disabling animations"
-            adb shell settings put global window_animation_scale 0.0
-            adb shell settings put global transition_animation_scale 0.0
-            adb shell settings put global animator_duration_scale 0.0
+            echo "✅ Emulator booted. Extra wait for stability..."
+            sleep 10
+
+            # Disable animations
+            adb shell settings put global window_animation_scale 0.0 || true
+            adb shell settings put global transition_animation_scale 0.0 || true
+            adb shell settings put global animator_duration_scale 0.0 || true
 
             # Start Appium
             nohup appium > appium.log 2>&1 &
@@ -66,8 +72,9 @@ jobs:
             # Install APK
             adb install app.apk
 
-            # Run Robot Framework tests
+            # Run Robot tests
             robot -d results Test/
+
 
       - name: Upload Robot Framework results
         uses: actions/upload-artifact@v4
