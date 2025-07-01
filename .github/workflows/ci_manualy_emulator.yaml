@@ -37,6 +37,9 @@ jobs:
           URL=$(cat Libraries/apkUrl.txt)
           echo "Downloading APK from $URL"
           gdown "$URL" -O app.apk
+    
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Create and start emulator manually
         run: |
@@ -70,7 +73,7 @@ jobs:
             sleep 10
 
             echo "📦 Installing APK"
-            adb install app.apk || echo "⚠️ APK install failed"
+            adb install app.apk 
 
             echo "🧪 Running tests"
             robot -d results Test/
