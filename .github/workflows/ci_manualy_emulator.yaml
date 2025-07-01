@@ -2,9 +2,9 @@ name: Mobile App Robot Test CI
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   pull_request:
-    branches: [dev]
+    branches: [main]
 
 jobs:
   run-tests:
@@ -38,49 +38,45 @@ jobs:
           echo "Downloading APK from $URL"
           gdown "$URL" -O app.apk
 
-      - name: Start emulator and run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        continue-on-error: true
-        with:
-          api-level: 30
-          target: google_apis
-          arch: x86_64
-          profile: pixel
-          disable-animations: false
-          script: |
-            mkdir -p $HOME/.android
-            touch $HOME/.android/emu-update-last-check.ini
+      - name: Create and start emulator manually
+        run: |
+            echo "📦 Installing system image"
+            echo "y" | sdkmanager "system-images;android-30;google_apis;x86_64"
+            
+            echo "📂 Creating AVD"
+            avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
 
-            echo "⏳ Waiting for emulator boot..."
-            BOOT_COMPLETED=""
-            while [[ "$BOOT_COMPLETED" == "1" ]]; do
-                BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
-                sleep 3
+            echo "🚀 Starting emulator..."
+            $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
+            EMULATOR_PID=$!
+
+            echo "⏳ Waiting for emulator to fully boot..."
+            boot_completed=""
+            until [[ "$boot_completed" == "1" ]]; do
+            boot_completed=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+            sleep 5
             done
 
-            echo "🔎 Verifying Android system services..."
-            until adb shell service check activity | grep -q "found"; do
-                echo "Waiting for activity manager to be available..."
-                sleep 2
-            done
-
-            echo "✅ Emulator booted. Extra wait for stability..."
+            echo "✅ Emulator booted. Waiting 10s more..."
             sleep 10
 
-            # Disable animations
+            echo "⚙️ Disabling animations"
             adb shell settings put global window_animation_scale 0.0 || true
             adb shell settings put global transition_animation_scale 0.0 || true
             adb shell settings put global animator_duration_scale 0.0 || true
 
-            # Start Appium
+            echo "🚀 Starting Appium"
             nohup appium > appium.log 2>&1 &
             sleep 10
 
-            # Install APK
-            adb install app.apk
+            echo "📦 Installing APK"
+            adb install app.apk || echo "⚠️ APK install failed"
 
-            # Run Robot tests
+            echo "🧪 Running tests"
             robot -d results Test/
+
+            echo "🧹 Killing emulator"
+            kill $EMULATOR_PID || true
 
 
       - name: Upload Robot Framework results
