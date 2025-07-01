@@ -46,7 +46,7 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel
-          disable-animations: true
+          disable-animations: false
           script: |
             mkdir -p $HOME/.android
             touch $HOME/.android/emu-update-last-check.ini
