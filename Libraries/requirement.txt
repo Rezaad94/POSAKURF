@@ -10,6 +10,5 @@ robotframework-pythonlibcore
 robotframework-requests
 robotframework-stacktrace
 rpaframework-dialogs
-robotframework-xml
-robotframework-pyotp
+xml-python  
 pymysql
