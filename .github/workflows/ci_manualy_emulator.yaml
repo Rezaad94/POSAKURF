@@ -54,7 +54,7 @@ jobs:
         env:
           ANDROID_AVD_HOME: $HOME/.config/.android/avd
         run: |
-          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
+          emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
           EMU_PID=$!
 
           echo "⏳ Waiting for emulator to boot..."
