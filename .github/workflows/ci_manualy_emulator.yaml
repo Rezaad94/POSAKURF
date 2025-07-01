@@ -1,4 +1,4 @@
-name: Mobile App Robot Test CI
+name: Mobile App Robot Framework CI
 
 on:
   push:
@@ -7,24 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  run-tests:
-    name: Run Robot Tests with APK from URL File
+  robot-tests:
+    name: Test on Android API 30
     runs-on: ubuntu-latest
+
+    env:
+      ANDROID_AVD_HOME: $HOME/.android/avd
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+      - name: Setup environment
+        run: |
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: |
@@ -32,68 +31,61 @@ jobs:
           pip install gdown
           npm install -g appium
 
-      - name: Download APK from URL in Libraries/apkUrl.txt
+      - name: Install Android SDK tools
+        uses: android-actions/setup-android@v3
+
+      - name: Accept licenses & install system image
+        run: |
+          sdkmanager --update
+          yes | sdkmanager --licenses
+          yes | sdkmanager "system-images;android-30;google_apis;x86_64"
+
+      - name: Create AVD
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d pixel_3a
+          mkdir -p $ANDROID_AVD_HOME
+
+      - name: Download APK from URL
         run: |
           URL=$(cat Libraries/apkUrl.txt)
           echo "Downloading APK from $URL"
           gdown "$URL" -O app.apk
-    
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
 
-      - name: Create and start emulator manually
+      - name: Start emulator
+        env:
+          ANDROID_AVD_HOME: $HOME/.android/avd
         run: |
-            echo "📦 Updating SDK"
-            sdkmanager --update
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
+          EMU_PID=$!
 
-            echo "✅ Accepting licenses"
-            yes | sdkmanager --licenses
-
-            echo "📥 Downloading system image"
-            yes | sdkmanager --install "system-images;android-30;google_apis;x86_64"
-
-            echo "📂 Creating AVD"
-            echo "no" | avdmanager -v create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
-
-            echo "📃 Listing AVDs"
-            avdmanager list avd
-            ls -la $(find $HOME -type d -path "*/.android/avd" 2>/dev/null | head -n 1)
-
-            echo "🚀 Starting emulator"
-            $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
-            EMU_PID=$!
-
-            echo "⏳ Waiting for boot..."
-            boot_completed=""
-            until [[ "$boot_completed" == "1" ]]; do
-            boot_completed=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+          echo "⏳ Waiting for emulator to boot..."
+          until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
             sleep 5
-            done
+          done
+          echo "✅ Emulator booted"
+          sleep 10
 
-            echo "✅ Booted. Waiting extra..."
-            sleep 10
+      - name: Disable animations (optional)
+        run: |
+          adb shell settings put global window_animation_scale 0.0 || true
+          adb shell settings put global transition_animation_scale 0.0 || true
+          adb shell settings put global animator_duration_scale 0.0 || true
 
-            echo "⚙️ Disabling animations"
-            adb shell settings put global window_animation_scale 0.0 || true
-            adb shell settings put global transition_animation_scale 0.0 || true
-            adb shell settings put global animator_duration_scale 0.0 || true
+      - name: Start Appium server
+        run: |
+          nohup appium > appium.log 2>&1 &
+          sleep 10
 
-            echo "🚀 Starting Appium"
-            nohup appium > appium.log 2>&1 &
-            sleep 10
+      - name: Install APK
+        run: adb install app.apk || true
 
-            echo "📦 Installing APK"
-            adb install app.apk 
+      - name: Run Robot Framework Tests
+        run: |
+          robot -d results Test/ || true
 
-            echo "🧪 Running tests"
-            robot -d results Test/
-
-            echo "🧹 Killing emulator"
-            kill $EMULATOR_PID || true
-
-
-      - name: Upload Robot Framework results
+      - name: Upload Robot Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-results
+          name: robot-results-api-30
           path: results/
