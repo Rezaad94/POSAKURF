@@ -53,7 +53,7 @@ jobs:
 
             echo "⏳ Waiting for emulator boot..."
             BOOT_COMPLETED=""
-            until [[ "$BOOT_COMPLETED" == "1" ]]; do
+            while [[ "$BOOT_COMPLETED" == "1" ]]; do
                 BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
                 sleep 2
             done
