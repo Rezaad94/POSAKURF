@@ -57,7 +57,7 @@ jobs:
 
             echo "📃 Listing AVDs"
             avdmanager list avd
-            ls -la $HOME/.android/avd/
+            ls -la $(find $HOME -type d -path "*/.android/avd" 2>/dev/null | head -n 1)
 
             echo "🚀 Starting emulator"
             $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
