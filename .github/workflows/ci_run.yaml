@@ -47,11 +47,21 @@ jobs:
           profile: pixel
           disable-animations: true
           script: |
-            echo "✅ Emulator started"
+            BOOT_COMPLETED=""
+            until [[ "$BOOT_COMPLETED" == "1" ]]; do
+                BOOT_COMPLETED=$(adb shell getprop sys.boot_completed | tr -d '\r')
+                echo "⏳ Waiting for emulator to boot..."
+                sleep 2
+            done
 
-            # Start Appium server
+            echo "✅ Emulator booted, disabling animations"
+            adb shell settings put global window_animation_scale 0.0
+            adb shell settings put global transition_animation_scale 0.0
+            adb shell settings put global animator_duration_scale 0.0
+
+            # Start Appium
             nohup appium > appium.log 2>&1 &
-            sleep 10  # Biarkan Appium siap
+            sleep 10
 
             # Install APK
             adb install app.apk
