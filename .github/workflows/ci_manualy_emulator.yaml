@@ -43,24 +43,34 @@ jobs:
 
       - name: Create and start emulator manually
         run: |
-            echo "📦 Installing system image"
-            echo "y" | sdkmanager "system-images;android-30;google_apis;x86_64"
-            
+            echo "📦 Updating SDK"
+            sdkmanager --update
+
+            echo "✅ Accepting licenses"
+            yes | sdkmanager --licenses
+
+            echo "📥 Downloading system image"
+            yes | sdkmanager --install "system-images;android-30;google_apis;x86_64"
+
             echo "📂 Creating AVD"
             avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d "pixel"
 
-            echo "🚀 Starting emulator..."
-            $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
-            EMULATOR_PID=$!
+            echo "📃 Listing AVDs"
+            avdmanager list avd
+            ls -la $HOME/.android/avd/
 
-            echo "⏳ Waiting for emulator to fully boot..."
+            echo "🚀 Starting emulator"
+            $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
+            EMU_PID=$!
+
+            echo "⏳ Waiting for boot..."
             boot_completed=""
             until [[ "$boot_completed" == "1" ]]; do
             boot_completed=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
             sleep 5
             done
 
-            echo "✅ Emulator booted. Waiting 10s more..."
+            echo "✅ Booted. Waiting extra..."
             sleep 10
 
             echo "⚙️ Disabling animations"
