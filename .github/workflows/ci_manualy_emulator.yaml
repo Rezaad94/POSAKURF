@@ -57,7 +57,7 @@ jobs:
         run: |
           URL=$(cat Libraries/apkUrl.txt)
           echo "Downloading APK from $URL"
-          gdown "$URL" -O app.apk
+          gdown --fuzzy "$URL" -O app.apk
 
       - name: Start emulator
         run: |

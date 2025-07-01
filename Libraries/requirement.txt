@@ -9,3 +9,7 @@ robotframework-pabot
 robotframework-pythonlibcore
 robotframework-requests
 robotframework-stacktrace
+robotframework-dialogs
+robotframework-xml
+robotframework-pyotp
+pymysql
