@@ -71,6 +71,13 @@ jobs:
           echo "✅ Emulator booted"
           sleep 10
 
+          until adb shell pm list packages > /dev/null 2>&1; do
+            echo "Waiting for Package Manager..."
+            sleep 5
+          done
+          echo "📦 Package Manager available"
+          sleep 5
+
       - name: Disable animations (optional)
         run: |
           adb shell settings put global window_animation_scale 0.0 || true
