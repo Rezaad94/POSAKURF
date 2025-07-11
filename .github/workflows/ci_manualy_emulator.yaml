@@ -94,15 +94,19 @@ jobs:
         run: |
           adb push app.apk /data/local/tmp/
 
-          echo "⏳ Waiting until Package Manager is available..."
-          RETRIES=0
-          until adb shell pm path android >/dev/null 2>&1 || [ $RETRIES -eq 30 ]; do
-            echo "  Package manager not ready... retry #$RETRIES"
-            sleep 3
-            RETRIES=$((RETRIES+1))
+          echo "⏳ Waiting for Package Manager..."
+          until adb shell pm path android >/dev/null 2>&1; do
+            echo "Package manager not ready..."
+            sleep 5
           done
 
-          echo "✅ Package Manager available"
+          echo "⏳ Waiting for settings provider..."
+          until adb shell settings get global airplane_mode_on >/dev/null 2>&1; do
+            echo "Settings provider not ready..."
+            sleep 5
+          done
+
+          echo "✅ System services are ready. Installing..."
           adb shell pm install -r /data/local/tmp/app.apk
 
       - name: Run Robot Framework Tests
