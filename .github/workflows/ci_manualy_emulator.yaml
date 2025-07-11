@@ -53,12 +53,6 @@ jobs:
           avdmanager list avd
           ls -R $ANDROID_AVD_HOME
 
-      - name: Download APK from URL
-        run: |
-          URL=$(cat Libraries/apkUrl.txt)
-          echo "Downloading APK from $URL"
-          gdown --fuzzy "$URL" -O app.apk
-
       - name: Start emulator
         run: |
           $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -no-boot-anim -accel off &
@@ -68,6 +62,7 @@ jobs:
           until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
             sleep 5
           done
+          adb devices
           echo "✅ Emulator booted"
           sleep 10
 
@@ -88,6 +83,12 @@ jobs:
         run: |
           nohup appium > appium.log 2>&1 &
           sleep 10
+      
+      - name: Download APK from URL
+        run: |
+          URL=$(cat Libraries/apkUrl.txt)
+          echo "Downloading APK from $URL"
+          gdown --fuzzy "$URL" -O app.apk
 
       - name: Install APK
         run: adb install app.apk || true
