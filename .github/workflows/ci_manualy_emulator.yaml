@@ -107,7 +107,7 @@ jobs:
           done
 
           echo "✅ System services are ready. Installing..."
-          adb install -r app.apk
+          adb shell pm install -r /data/local/tmp/app.apk
 
       - name: Run Robot Framework Tests
         run: |
