@@ -1,5 +1,5 @@
 robotframework
-Appium-Python-Client
+Appium-Python-Client==2.3.0
 robotframework-appiumlibrary
 robotframework-databaselibrary
 robotframework-excellib
@@ -12,3 +12,4 @@ robotframework-stacktrace
 rpaframework-dialogs
 xml-python  
 pymysql
+pyotp

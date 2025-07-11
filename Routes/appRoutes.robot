@@ -10,7 +10,7 @@ Resource                ../Resource/Common/setupAndroidMobile.robot
 Resource                ../Resource/Pages/Login/loginPage.robot
 
 #- SplashScreen -#
-Resource                ../Resource/Pages/splashScreen/splashScreenPage.robot
+Resource                ../Resource/Pages/SplashScreen/splashScreenPage.robot
 
 #- Home -#
 Resource                ../Resource/Pages/Home/homePage.robot

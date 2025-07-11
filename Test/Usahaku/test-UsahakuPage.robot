@@ -1,7 +1,6 @@
 *** Settings ***
 Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Usahaku
-Task Tags               Usahaku Page
 Suite Setup             Setup and open dialer Android App
 Suite Teardown          Close mobile Application
 

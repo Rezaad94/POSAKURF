@@ -1,7 +1,6 @@
 *** Settings ***
 Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Home Page
-Task Tags               Home Page
 Suite Setup             Setup and open dialer Android App
 Suite Teardown          Close mobile Application
 

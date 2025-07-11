@@ -71,7 +71,7 @@ jobs:
             sleep 5
           done
           echo "📦 Package Manager available"
-          sleep 5
+          sleep 15
 
       - name: Disable animations (optional)
         run: |
@@ -90,8 +90,10 @@ jobs:
           echo "Downloading APK from $URL"
           gdown --fuzzy "$URL" -O app.apk
 
-      - name: Install APK
-        run: adb install app.apk || true
+      - name: Push APK and install manually
+        run: |
+          adb push app.apk /data/local/tmp/
+          adb shell pm install -r /data/local/tmp/app.apk
 
       - name: Run Robot Framework Tests
         run: |

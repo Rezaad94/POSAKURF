@@ -1,7 +1,6 @@
 *** Settings ***
 Resource                ../../Routes/appRoutes.robot
 Documentation           Testcases Splash Screen Page
-Task Tags               Splash Screen Page
 Suite Setup             Setup and open dialer Android App
 Suite Teardown          Close mobile Application
 
