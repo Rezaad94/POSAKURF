@@ -78,11 +78,6 @@ jobs:
           adb shell settings put global window_animation_scale 0.0 || true
           adb shell settings put global transition_animation_scale 0.0 || true
           adb shell settings put global animator_duration_scale 0.0 || true
-
-      - name: Start Appium server
-        run: |
-          nohup appium > appium.log 2>&1 &
-          sleep 10
       
       - name: Download APK from URL
         run: |
@@ -90,18 +85,41 @@ jobs:
           echo "Downloading APK from $URL"
           gdown --fuzzy "$URL" -O app.apk
 
-      - name: Push & Install APK (fallback install path)
+      - name: Wait for Package Manager and System Services
         run: |
-          adb push app.apk /data/local/tmp/app.apk
-
           echo "⏳ Waiting for Package Manager..."
-          until adb shell pm path android >/dev/null 2>&1; do
-            echo "Package manager not ready..."
+          until adb shell cmd package list > /dev/null 2>&1; do
             sleep 5
           done
+          echo "✅ Package Manager available"
 
-          echo "✅ Installing via shell pm command (fallback)"
-          adb shell pm install -t -g /data/local/tmp/app.apk || true
+          echo "⏳ Waiting for settings provider..."
+          until adb shell content query --uri content://settings/global --projection name:value > /dev/null 2>&1; do
+            sleep 5
+          done
+          echo "✅ System services are ready. Installing..."
+
+      - name: Install APK
+        run: |
+          adb install app.apk || true
+
+      # - name: Push & Install APK (fallback install path)
+      #   run: |
+      #     adb push app.apk /data/local/tmp/app.apk
+
+      #     echo "⏳ Waiting for Package Manager..."
+      #     until adb shell pm path android >/dev/null 2>&1; do
+      #       echo "Package manager not ready..."
+      #       sleep 5
+      #     done
+
+      #     echo "✅ Installing via shell pm command (fallback)"
+      #     adb shell pm install -t -g /data/local/tmp/app.apk || true
+
+      - name: Start Appium server
+        run: |
+          nohup appium > appium.log 2>&1 &
+          sleep 10
 
       - name: Run Robot Framework Tests
         run: |

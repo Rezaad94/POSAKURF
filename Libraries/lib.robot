@@ -2,7 +2,7 @@
 Library                 AppiumLibrary
 # Library                 AppiumFlutterLibrary   
 Library                 Process
-Library                 Dialogs
+# Library                 Dialogs
 Library                 OperatingSystem
 Library                 String
 Library                 RequestsLibrary
