@@ -90,9 +90,10 @@ jobs:
           echo "Downloading APK from $URL"
           gdown --fuzzy "$URL" -O app.apk
 
-      - name: Push APK and install manually
+      - name: Push APK & Install using install-create (stable)
         run: |
-          adb push app.apk /data/local/tmp/
+          echo "📦 Pushing APK..."
+          adb push app.apk /data/local/tmp/app.apk
 
           echo "⏳ Waiting for Package Manager..."
           until adb shell pm path android >/dev/null 2>&1; do
@@ -100,14 +101,20 @@ jobs:
             sleep 5
           done
 
-          echo "⏳ Waiting for settings provider..."
+          echo "⏳ Waiting for system settings provider..."
           until adb shell settings get global airplane_mode_on >/dev/null 2>&1; do
             echo "Settings provider not ready..."
             sleep 5
           done
 
           echo "✅ System services are ready. Installing..."
-          adb install -t app.apk
+          FILESIZE=$(stat -c%s "app.apk")
+          adb shell pm install-create -r -S $FILESIZE > session.txt
+          SESSION=$(cat session.txt | grep -oP '(?<=\[).*(?=\])')
+
+          adb exec-out dd if=app.apk | adb shell pm install-write -S $FILESIZE $SESSION base.apk
+          adb shell pm install-commit $SESSION
+
 
       - name: Run Robot Framework Tests
         run: |
