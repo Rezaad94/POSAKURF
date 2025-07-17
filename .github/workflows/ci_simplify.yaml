@@ -1,0 +1,77 @@
+name: Mobile App Robot Framework CI Manual Emulator Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  robot-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_HOME: /usr/local/lib/android/sdk
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup environment
+        run: |
+          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: |
+          pip install -r Libraries/requirement.txt
+          pip install gdown
+          npm install -g appium
+
+      - name: Install Android SDK tools and system image
+        run: |
+          sdkmanager --update
+          yes | sdkmanager --licenses
+          yes | sdkmanager "system-images;android-30;google_apis_playstore;x86_64"
+
+      - name: Create and start emulator
+        run: |
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis_playstore;x86_64" -d pixel_3a
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -accel off &
+          until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
+            sleep 5
+          done
+          adb devices
+          sleep 10
+
+      - name: Disable animations (optional)
+        run: |
+          adb shell settings put global window_animation_scale 0.0
+          adb shell settings put global transition_animation_scale 0.0
+          adb shell settings put global animator_duration_scale 0.0
+
+      - name: Download APK
+        run: |
+          URL=$(cat Libraries/apkUrl.txt)
+          gdown --fuzzy "$URL" -O app.apk
+
+      - name: Install APK
+        run: |
+          adb install app.apk
+
+      - name: Start Appium server
+        run: |
+          nohup appium > appium.log 2>&1 &
+          sleep 10
+
+      - name: Run Robot Framework Tests
+        run: |
+          robot -d results Test/
+
+      - name: Upload Robot Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results-api-30
+          path: results/

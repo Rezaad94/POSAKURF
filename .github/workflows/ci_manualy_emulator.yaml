@@ -2,9 +2,9 @@ name: Mobile App Robot Framework CI Manual Emulator Tests
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
   pull_request:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   robot-tests:
