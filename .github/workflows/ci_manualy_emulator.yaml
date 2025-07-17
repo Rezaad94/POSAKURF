@@ -41,11 +41,11 @@ jobs:
         run: |
           sdkmanager --update
           yes | sdkmanager --licenses
-          yes | sdkmanager "system-images;android-30;google_apis;x86_64"
+          yes | sdkmanager "system-images;android-30;google_apis_playstore;x86_64"
 
       - name: Create AVD
         run: |
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" -d pixel_3a
+          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis_playstore;x86_64" -d pixel_3a
 
       - name: List AVDs after creation
         run: |
@@ -98,6 +98,10 @@ jobs:
             sleep 5
           done
           echo "✅ System services are ready. Installing..."
+
+      - name: Clear /data/local/tmp
+        run: |
+          adb shell rm -rf /data/local/tmp/*
 
       - name: Install APK
         run: |
