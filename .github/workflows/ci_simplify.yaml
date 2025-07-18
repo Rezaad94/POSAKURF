@@ -1,4 +1,4 @@
-name: Mobile App Robot Framework CI Manual Emulator Tests
+name: Mobile App Robot Framework CI Manual Emulator Tests simplyfy
 
 on:
   push:
@@ -28,6 +28,12 @@ jobs:
           pip install -r Libraries/requirement.txt
           pip install gdown
           npm install -g appium
+    
+      - name: Add Android SDK tools to PATH
+        run: |
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/cmdline-tools/tools/bin" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/tools/bin" >> $GITHUB_PATH
 
       - name: Install Android SDK tools and system image
         run: |
